@@ -2,10 +2,10 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>sz8 | 使用 常熟市中学我爱你 编码任意字符</title>
+    <title>0width | 使用 零宽字符 隐藏任意字符</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://static.evax.top/css/pico.min.css">
-    <script src="/sz8.js"></script>
+    <script src="/zero.js"></script>
     <style>
         footer {
             text-align: center;
@@ -17,15 +17,21 @@
 <main>
 
     <hgroup>
-        <h1>sz8 在线编解码</h1>
-        <h2>使用 常熟市中学我爱你 编码任意字符串</h2>
+        <h1>0width 在线编解码</h1>
+        <h2>使用 零宽字符 隐藏任意字符</h2>
     </hgroup>
 
-    <p>不够喜欢? 试试基于零宽字符的 <a href="/0width.html">字符串隐藏</a></p>
-
     <article>
-        <label for="input">原始字符串</label>
-        <textarea id="input" rows="6" wrap="soft" placeholder="原始字符串"></textarea>
+        <div class="grid">
+            <div>
+                <label for="txt">显性字符串</label>
+                <textarea id="txt" rows="6" wrap="soft" placeholder="显性字符串"></textarea>
+            </div>
+            <div>
+                <label for="input">隐藏字符串</label>
+                <textarea id="input" rows="6" wrap="soft" placeholder="隐藏字符串"></textarea>
+            </div>
+        </div>
         <div class="grid">
             <button id="encode">编码 ↓</button>
             <button id="decode">解码 ↑</button>
@@ -36,6 +42,7 @@
 
     <script>
 
+        const text = document.getElementById('txt');
         const ipt = document.getElementById('input');
         const opt = document.getElementById('output');
 
@@ -43,11 +50,11 @@
         const de = document.getElementById('decode');
 
         en.addEventListener('click', () => {
-            opt.value = encode(ipt.value);
+            opt.value = embed(text.value, ipt.value);
         });
 
         de.addEventListener('click', () => {
-            ipt.value = decode(opt.value);
+            [ipt.value, text.value] = extract(opt.value);
         });
 
     </script>
