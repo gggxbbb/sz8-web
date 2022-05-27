@@ -58,8 +58,8 @@ function decode(s) {
         const item = arr[i];
         const index = charPools.indexOf(item);
         const b = index.toString(2);
-        if (b.length < 3) {
-            bin += "0".repeat(3 - b.length);
+        if (b.length < depth) {
+            bin += "0".repeat(depth - b.length);
         }
         bin += b;
     }
