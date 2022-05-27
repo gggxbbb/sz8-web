@@ -61,7 +61,9 @@ function decode(s) {
     let tempBin = "";
     for (let i = 0; i < arrBin.length - extraChar; i += 16) {
         tempBin += arrBin.slice(i, i + 16).join("");
-        tempBin += " ";
+        if (i+16< arrBin.length - extraChar) {
+            tempBin += " ";
+        }
     }
     return binaryAgent(tempBin);
 }

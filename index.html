@@ -2,23 +2,61 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>sz8 | 使用 我爱常熟市中学 编码任意字符串</title>
+    <title>sz8 | 使用 常熟市中学我爱你 编码任意字符</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://static.evax.top/css/pico.min.css">
     <script src="/sz8.js"></script>
+    <style>
+        footer {
+            text-align: center;
+        }
+    </style>
 </head>
-<body>
+<body class="container">
 
-<script>
+<main>
 
-    const ipt = "我";
-    console.log(ipt);
-    en = encode(ipt);
-    console.log(en);
-    de = decode(en);
-    console.log(de);
+    <hgroup>
+        <h1>sz8 在线编解码</h1>
+        <h2>使用 <code>常熟市中学我爱你</code> 编码任意字符串</h2>
+    </hgroup>
 
-</script>
+    <article>
+        <label for="input">原始字符串</label>
+        <textarea id="input" rows="6" wrap="soft" placeholder="原始字符"></textarea>
+        <div class="grid">
+            <button id="encode">编码 ↓</button>
+            <button id="decode">解码 ↑</button>
+        </div>
+        <label for="output">编码结果</label>
+        <textarea id="output" rows="6" wrap="hard" placeholder="编码结果"></textarea>
+    </article>
+
+    <script>
+
+        const ipt = document.getElementById('input');
+        const opt = document.getElementById('output');
+
+        const en = document.getElementById('encode');
+        const de = document.getElementById('decode');
+
+        en.addEventListener('click', () => {
+            opt.value = encode(ipt.value);
+        });
+
+        de.addEventListener('click', () => {
+            ipt.value = decode(opt.value);
+        });
+
+    </script>
+
+    <footer>
+        <p>源代码: <a href="https://github.com/gggxbbb/sz8-web">Github</a></p>
+    </footer>
+
+</main>
+
+
 
 </body>
 </html>
