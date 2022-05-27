@@ -28,7 +28,6 @@ function binaryAgent(str) {
 
 function encode(s) {
     let bin = strToBinary(s);
-    console.log(bin);
     const extraChar = depth - bin.length % depth;
     bin += "0".repeat(extraChar);
     const arr = bin.split("");
