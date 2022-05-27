@@ -28,7 +28,10 @@ function binaryAgent(str) {
 
 function encode(s) {
     let bin = strToBinary(s);
-    const extraChar = depth - bin.length % depth;
+    let extraChar = depth - bin.length % depth;
+    if (extraChar === depth){
+        extraChar = 0;
+    }
     bin += "0".repeat(extraChar);
     const arr = bin.split("");
     let result = "";
@@ -47,8 +50,11 @@ function encode(s) {
 function decode(s) {
     let bin = "";
     const arr = s.split("");
-    const extraChar = arr.length - arr.indexOf("=");
-    for (let i = 0; i < arr.indexOf("="); i++) {
+    let extraChar = arr.length - arr.indexOf("=");
+    if (extraChar >= arr.length) {
+        extraChar = 0;
+    }
+    for (let i = 0; i < arr.length - extraChar; i++) {
         const item = arr[i];
         const index = charPools.indexOf(item);
         const b = index.toString(2);
