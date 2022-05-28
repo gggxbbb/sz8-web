@@ -101,10 +101,6 @@
         });
 
         char.addEventListener('input', function () {
-            const new_char = char.value.slice(char.value.length - 1);
-            if ((char.value.slice(0, char.value.length - 1).indexOf(new_char) !== -1) || new_char === "=") {
-                char.value = char.value.slice(0, char.value.length - 1);
-            }
             char_dist.innerText = `${char.value.length}/${char.maxLength}`;
         });
 
