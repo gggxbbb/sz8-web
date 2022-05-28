@@ -5,7 +5,7 @@
     <title>sz8 | 使用 常熟市中学我爱你 编码任意字符</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://static.evax.top/css/pico.min.css">
-    <script src="/sz8.js"></script>
+    <script src="/ed.js"></script>
     <style>
         footer {
             text-align: center;
@@ -44,6 +44,11 @@
         const de = document.getElementById('decode');
 
         const copy = document.getElementById('copy');
+
+        sz8 = new ed(
+            3,
+            ["常", "熟", "市", "中", "学", "我", "爱", "你"]
+        );
 
         en.addEventListener('click', () => {
             opt.value = sz8.encode(ipt.value);

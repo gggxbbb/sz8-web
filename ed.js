@@ -1,17 +1,47 @@
 /**
- * 使用 常熟市中学我爱你 这五个字符编码任意字符串
+ * 使用给定字符编码任意字符串
  * @author gggxbbb
  */
-class sz8 {
-    static depth = 3;
-    static charPools = ["常", "熟", "市", "中", "学", "我", "爱", "你"];
+class ed {
+    depth;
+    charPools;
+
+    /**
+     * 构造函数
+     * @param depth{number} 字符池深度
+     * @param charPools{string[]} 字符池, 其长度必须为 2^depth, 各元素必须为单一字符且不能重复
+     */
+    constructor(depth, charPools) {
+        this.depth = depth;
+        this.charPools = charPools;
+        if (charPools.length !== Math.pow(2, depth)) {
+            this.depth = 0;
+            this.charPools = [];
+            throw new Error('charPools length must be 2^depth');
+        }
+        for (let i = 0; i < charPools.length; i++) {
+            if (charPools[i].length !== 1) {
+                this.depth = 0;
+                this.charPools = [];
+                throw new Error('element of charPools must be 1 character');
+            }
+            charPools.slice(i + 1).forEach(c => {
+                if (c === charPools[i]) {
+                    this.depth = 0;
+                    this.charPools = [];
+                    throw new Error('element of charPools must be unique');
+                }
+            });
+        }
+    }
 
     /**
      * 将 string 转换为 二进制形式, 每一个字符对应二进制长度为 16
      * @param str{string} 待转换的字符串
      * @returns {string} 转换后的二进制字符串
+     * @private
      */
-    static strToBinary(str) {
+    strToBinary(str) {
         const result = [];
         const list = str.split("");
         for (let i = 0; i < list.length; i++) {
@@ -29,8 +59,9 @@ class sz8 {
      * 将二进制字符串转换为 string
      * @param str{string} 二进制字符串, 不同字符间用空格隔开
      * @returns {string} 转换后的字符串
+     * @private
      */
-    static binaryAgent(str) {
+    binaryAgent(str) {
         const arr = str.split(' ');
         return arr.map(item => {
             let asciiCode = parseInt(item, 2);
@@ -43,7 +74,7 @@ class sz8 {
      * @param s{string} 待编码的字符串
      * @returns {string} 编码后的字符串
      */
-    static encode(s) {
+    encode(s) {
         let bin = this.strToBinary(s);
         let extraChar = this.depth - bin.length % this.depth;
         if (extraChar === this.depth) {
@@ -69,7 +100,7 @@ class sz8 {
      * @param s{string} 待解码的字符串
      * @returns {string} 解码后的字符串
      */
-    static decode(s) {
+    decode(s) {
         let bin = "";
         const arr = s.split("");
         let extraChar = arr.length - arr.indexOf("=");
