@@ -37,8 +37,8 @@
 
         <div class="grid">
             <div>
-                <label for="depth">位深 <small><span class="label_info">不可大于10或小于1</span></small></label>
-                <input type="number" id="depth" placeholder="位深" min="1" max="10">
+                <label for="depth">位深 <small><span class="label_info">1~9</span></small></label>
+                <input type="number" id="depth" placeholder="位深" min="1" max="9" step="1">
             </div>
             <div>
                 <label for="char">字符池 <small><span class="label_info" id="char_dist">0/1</span></small></label>
@@ -90,34 +90,44 @@
         const depth = document.getElementById('depth');
 
         depth.addEventListener('input', function () {
-            if (parseInt(depth.value) > 10) {
-                depth.value = 10;
+            if (parseInt(depth.value) > 9) {
+                depth.value = 9;
             }
             if (parseInt(depth.value) < 1) {
                 depth.value = 1;
             }
-            char.maxLength = Math.pow(2, depth.value);
+            char.maxLength = Math.pow(2, parseInt(depth.value));
             char_dist.innerText = `${char.value.length}/${char.maxLength}`;
         });
 
         char.addEventListener('input', function () {
+            const new_char = char.value.slice(char.value.length - 1);
+            if ((char.value.slice(0, char.value.length - 1).indexOf(new_char) !== -1) || new_char === "=") {
+                char.value = char.value.slice(0, char.value.length - 1);
+            }
             char_dist.innerText = `${char.value.length}/${char.maxLength}`;
         });
 
-        function buildED() {
+        function buildED(dialog = true) {
             const depthD = parseInt(depth.value);
             const charD = Array.from(char.value);
             if (charD.length !== Math.pow(2, depthD)) {
-                openDialog('字符池中字符数量必须为 2^位深 个');
+                if (dialog) {
+                    openDialog('字符池中字符数量必须为 2^位深 个');
+                }
                 return null;
             } else if (char.value.indexOf('=') !== -1) {
-                openDialog('字符池中不能包含 =');
+                if (dialog) {
+                    openDialog('字符池中不能包含等号');
+                }
                 return null;
             } else {
                 try {
                     return new ed(depthD, charD);
                 } catch (e) {
-                    openDialog("字符池中不可出现重复字符");
+                    if (dialog) {
+                        openDialog(e.message);
+                    }
                     return null;
                 }
             }
@@ -130,6 +140,13 @@
         const de = document.getElementById('decode');
 
         const copy = document.getElementById('copy');
+
+        ipt.addEventListener('input', function () {
+            const e = buildED();
+            if (e) {
+                opt.value = e.encode(ipt.value);
+            }
+        });
 
         en.addEventListener('click', () => {
             const e = buildED();

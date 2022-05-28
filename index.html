@@ -59,6 +59,10 @@
             ["常", "熟", "市", "中", "学", "我", "爱", "你"]
         );
 
+        ipt.addEventListener('input', function () {
+            opt.value = sz8.encode(ipt.value);
+        });
+
         en.addEventListener('click', () => {
             opt.value = sz8.encode(ipt.value);
         });
