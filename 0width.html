@@ -57,7 +57,9 @@
         });
 
         de.addEventListener('click', () => {
-            [ipt.value, text.value] = zero.extract(opt.value);
+            const d = zero.extract(opt.value);
+            ipt.value = d.hiddenStr;
+            text.value = d.visibleStr;
         });
 
         copy.addEventListener('click', () => {

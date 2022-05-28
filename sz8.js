@@ -1,7 +1,16 @@
+/**
+ * 使用 常熟市中学我爱你 这五个字符编码任意字符串
+ * @author gggxbbb
+ */
 class sz8 {
     static depth = 3;
     static charPools = ["常", "熟", "市", "中", "学", "我", "爱", "你"];
 
+    /**
+     * 将 string 转换为 二进制形式, 每一个字符对应二进制长度为 16
+     * @param str{string} 待转换的字符串
+     * @returns {string} 转换后的二进制字符串
+     */
     static strToBinary(str) {
         const result = [];
         const list = str.split("");
@@ -16,6 +25,11 @@ class sz8 {
         return result.join("");
     }
 
+    /**
+     * 将二进制字符串转换为 string
+     * @param str{string} 二进制字符串, 不同字符间用空格隔开
+     * @returns {string} 转换后的字符串
+     */
     static binaryAgent(str) {
         const arr = str.split(' ');
         return arr.map(item => {
@@ -24,6 +38,11 @@ class sz8 {
         }).join('');
     }
 
+    /**
+     * 编码
+     * @param s{string} 待编码的字符串
+     * @returns {string} 编码后的字符串
+     */
     static encode(s) {
         let bin = this.strToBinary(s);
         let extraChar = this.depth - bin.length % this.depth;
@@ -45,6 +64,11 @@ class sz8 {
         return result;
     }
 
+    /**
+     * 解码
+     * @param s{string} 待解码的字符串
+     * @returns {string} 解码后的字符串
+     */
     static decode(s) {
         let bin = "";
         const arr = s.split("");
