@@ -38,6 +38,7 @@
         </div>
         <label for="output">编码结果</label>
         <textarea id="output" rows="6" wrap="hard" placeholder="编码结果"></textarea>
+        <button id="copy">复制</button>
     </article>
 
     <script>
@@ -49,6 +50,8 @@
         const en = document.getElementById('encode');
         const de = document.getElementById('decode');
 
+        const copy = document.getElementById('copy');
+
         en.addEventListener('click', () => {
             opt.value = embed(text.value, ipt.value);
         });
@@ -57,14 +60,20 @@
             [ipt.value, text.value] = extract(opt.value);
         });
 
+        copy.addEventListener('click', () => {
+            opt.select();
+            navigator.clipboard.writeText(opt.value);
+        });
+
     </script>
 
     <footer>
-        <p>源代码: <a href="https://github.com/gggxbbb/sz8-web">Github</a></p>
+        <p>源代码: <a href="https://github.com/gggxbbb/sz8-web">Github</a> | <a
+                href="https://git.evax.top/gggxbbb/sz8-web">EvaxGit (镜像)</a></p>
+        <p>部署于 GitHub Pages</p>
     </footer>
 
 </main>
-
 
 
 </body>
