@@ -46,15 +46,14 @@
         const copy = document.getElementById('copy');
 
         en.addEventListener('click', () => {
-            opt.value = encode(ipt.value);
+            opt.value = sz8.encode(ipt.value);
         });
 
         de.addEventListener('click', () => {
-            ipt.value = decode(opt.value);
+            ipt.value = sz8.decode(opt.value);
         });
 
         copy.addEventListener('click', () => {
-            opt.select();
             navigator.clipboard.writeText(opt.value);
         });
 

@@ -53,15 +53,14 @@
         const copy = document.getElementById('copy');
 
         en.addEventListener('click', () => {
-            opt.value = embed(text.value, ipt.value);
+            opt.value = zero.embed(text.value, ipt.value);
         });
 
         de.addEventListener('click', () => {
-            [ipt.value, text.value] = extract(opt.value);
+            [ipt.value, text.value] = zero.extract(opt.value);
         });
 
         copy.addEventListener('click', () => {
-            opt.select();
             navigator.clipboard.writeText(opt.value);
         });
 
