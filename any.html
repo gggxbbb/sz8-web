@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>AnyED | 使用 任意字符串 编码任意字符</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://static.evax.top/css/pico.min.css">
+    <script src="/ed.js"></script>
+    <style>
+        footer {
+            text-align: center;
+        }
+
+        .label_info {
+            float: right;
+        }
+    </style>
+</head>
+<body class="container">
+
+<main>
+
+    <nav>
+        <ul>
+            <li><a href="/" class="btn btn-primary">sz8</a></li>
+            <li><a href="/any.html" class="btn btn-primary">AnyED</a></li>
+            <li><a href="/0width.html" class="btn btn-primary">0width</a></li>
+        </ul>
+    </nav>
+
+    <hgroup>
+        <h1>AnyED 在线编解码</h1>
+        <h2>使用任意2的次方个字符编码任意字符串 | <b>仅供娱乐</b></h2>
+    </hgroup>
+
+    <article>
+
+        <div class="grid">
+            <div>
+                <label for="depth">位深 <small><span class="label_info">不可大于10或小于1</span></small></label>
+                <input type="number" id="depth" placeholder="位深" min="1" max="10">
+            </div>
+            <div>
+                <label for="char">字符池 <small><span class="label_info" id="char_dist">0/1</span></small></label>
+                <input id="char" placeholder="字符池" maxlength="1">
+            </div>
+        </div>
+        <p>字符池中字符数量必须为 <code>2^位深</code> 个</p>
+
+
+        <label for="input">原始字符串</label>
+        <textarea id="input" rows="6" wrap="soft" placeholder="原始字符串"></textarea>
+        <div class="grid">
+            <button id="encode">编码 ↓</button>
+            <button id="decode">解码 ↑</button>
+        </div>
+        <label for="output">编码结果</label>
+        <textarea id="output" rows="6" wrap="hard" placeholder="编码结果"></textarea>
+        <button id="copy">复制</button>
+    </article>
+
+    <dialog id="error_dialog">
+        <article>
+            <header>
+                <a href="#" aria-label="Close" class="close" onclick="closeDialog(1)"></a>
+                糟糕!
+            </header>
+            <p id="err_msg"></p>
+        </article>
+    </dialog>
+
+    <script>
+        const dialog = document.getElementById('error_dialog');
+        const msg = document.getElementById('err_msg');
+
+        function openDialog(err_msg) {
+            msg.innerHTML = err_msg
+            dialog.setAttribute('open', "open");
+        }
+
+        function closeDialog() {
+            dialog.removeAttribute('open');
+        }
+    </script>
+
+    <script>
+
+        const char_dist = document.getElementById('char_dist');
+        const char = document.getElementById('char');
+        const depth = document.getElementById('depth');
+
+        depth.addEventListener('input', function () {
+            if (parseInt(depth.value) > 10) {
+                depth.value = 10;
+            }
+            if (parseInt(depth.value) < 1) {
+                depth.value = 1;
+            }
+            char.maxLength = Math.pow(2, depth.value);
+            char_dist.innerText = `${char.value.length}/${char.maxLength}`;
+        });
+
+        char.addEventListener('input', function () {
+            char_dist.innerText = `${char.value.length}/${char.maxLength}`;
+        });
+
+        function buildED() {
+            const depthD = parseInt(depth.value);
+            const charD = Array.from(char.value);
+            if (charD.length !== Math.pow(2, depthD)) {
+                openDialog('字符池中字符数量必须为 2^位深 个');
+                return null;
+            } else if (char.value.indexOf('=') !== -1) {
+                openDialog('字符池中不能包含 =');
+                return null;
+            } else {
+                try {
+                    return new ed(depthD, charD);
+                } catch (e) {
+                    openDialog("字符池中不可出现重复字符");
+                    return null;
+                }
+            }
+        }
+
+        const ipt = document.getElementById('input');
+        const opt = document.getElementById('output');
+
+        const en = document.getElementById('encode');
+        const de = document.getElementById('decode');
+
+        const copy = document.getElementById('copy');
+
+        en.addEventListener('click', () => {
+            const e = buildED();
+            if (e) {
+                opt.value = e.encode(ipt.value);
+            }
+        });
+
+        de.addEventListener('click', () => {
+            const e = buildED();
+            if (e) {
+                ipt.value = e.decode(opt.value);
+            }
+        });
+
+        copy.addEventListener('click', () => {
+            navigator.clipboard.writeText(opt.value);
+        });
+
+    </script>
+
+    <footer>
+        <p>源代码: <a href="https://github.com/gggxbbb/sz8-web">GitHub</a> | <a
+                href="https://git.evax.top/gggxbbb/sz8-web">EvaxGit (镜像)</a></p>
+        <p>部署于 GitHub Pages</p>
+    </footer>
+
+</main>
+
+
+</body>
+</html>

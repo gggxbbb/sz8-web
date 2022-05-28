@@ -25,6 +25,11 @@ class ed {
                 this.charPools = [];
                 throw new Error('element of charPools must be 1 character');
             }
+            if (charPools[i] === "=") {
+                this.depth = 0;
+                this.charPools = [];
+                throw new Error('element of charPools must not be "="');
+            }
             charPools.slice(i + 1).forEach(c => {
                 if (c === charPools[i]) {
                     this.depth = 0;
