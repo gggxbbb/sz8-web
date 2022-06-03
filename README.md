@@ -6,6 +6,8 @@
 
 没有 usage, 只有 [demo](https://sz8.gxb.pub)
 
+现已支持 [自定义字符池](https://sz8.gxb.pub/any.html)
+
 ## Demo
 ```text
 江苏省常熟中学和江苏省常熟市中学不是同一个学校
